@@ -1,21 +1,25 @@
 package com.todo.springtodo.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.UUID;
 
 @Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Table(name="task")
 public class Task {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
-    private String name;
-    private String status;
+    private long taskId;
+    private String taskName;
+    @JsonBackReference
+    @ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name = "task_board_id")
+    private TaskBoard taskBoard;
 }
