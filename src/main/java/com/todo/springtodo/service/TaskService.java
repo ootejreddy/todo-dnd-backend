@@ -36,9 +36,10 @@ public class TaskService {
         Task taskEntity = new Task();
         taskEntity.setTaskName(task);
         taskEntity.setTaskBoard(taskBoardEntity);
-        List<Task> taskList = taskBoardEntity.getTaskList();
-        taskList.add(taskEntity);
-        taskBoardEntity.setTaskList(taskList);
+
+//        List<Task> taskList = taskBoardEntity.getTaskList();
+//        taskList.add(taskEntity);
+        taskBoardEntity.setTaskList(taskBoardEntity.getTaskList());
         taskBoardRepository.save(taskBoardEntity);
         return taskBoardEntity;
     }
