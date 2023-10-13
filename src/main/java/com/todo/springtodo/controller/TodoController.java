@@ -41,11 +41,15 @@ public class TodoController {
     @PutMapping("/task/{boardId}")
     public ResponseEntity<?> update(@PathVariable Long boardId, @RequestBody Task task){
         System.out.println("The task name is: "+ task.getTaskName());
-        return new ResponseEntity<>(taskService.update(boardId, task.getTaskName()), HttpStatus.OK);
+        System.out.println("The task id is: "+ task.getTaskId());
+        return new ResponseEntity<>(taskService.update(boardId, task), HttpStatus.OK);
     }
+
+//    @CrossOrigin
+//    @PutMapping("/updateTask/{id}/")
     @CrossOrigin
     @DeleteMapping("/task/{id}")
     public ResponseEntity<?> deleteById(@PathVariable Long id){
-        return new ResponseEntity<>(taskService.delete(id), HttpStatus.OK);
+        return new ResponseEntity<>(taskService.deleteTask(id), HttpStatus.OK);
     }
 }

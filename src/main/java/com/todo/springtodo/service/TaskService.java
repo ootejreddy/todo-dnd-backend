@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 
 @RequiredArgsConstructor
@@ -30,22 +31,28 @@ public class TaskService {
     }
 
     @Transactional
-    public TaskBoard update(Long id, String task){
+    public TaskBoard update(Long id, Task task){
         TaskBoard taskBoardEntity = taskBoardRepository.findById( Math.toIntExact(id))
                 .orElseThrow(()->new IllegalArgumentException("check Id"));  //Persistence Context
         Task taskEntity = new Task();
-        taskEntity.setTaskName(task);
+        taskEntity.setTaskName(task.getTaskName());
         taskEntity.setTaskBoard(taskBoardEntity);
 
-//        List<Task> taskList = taskBoardEntity.getTaskList();
-//        taskList.add(taskEntity);
-        taskBoardEntity.setTaskList(taskBoardEntity.getTaskList());
+        List<Task> taskList = taskBoardEntity.getTaskList();
+        taskList.add(taskEntity);
+        taskBoardEntity.setTaskList(taskList);
         taskBoardRepository.save(taskBoardEntity);
         return taskBoardEntity;
     }
     @Transactional
     public String delete(Long id){
         taskBoardRepository.deleteById(Math.toIntExact(id));
+        return "TaskBoard Deleted";
+    }
+
+    @Transactional
+    public String deleteTask(Long id){
+        taskRepository.deleteById(Math.toIntExact(id));
         return "TaskBoard Deleted";
     }
 }

@@ -20,6 +20,6 @@ public class TaskBoard {
     private long boardId;
     private String boardName;
     @JsonManagedReference
-    @OneToMany(mappedBy = "taskBoard", cascade = CascadeType.ALL, fetch=FetchType.LAZY)
+    @OneToMany(mappedBy = "taskBoard", cascade = CascadeType.ALL, fetch=FetchType.LAZY, orphanRemoval=true)
     private List<Task> taskList = new ArrayList<>();
 }
