@@ -52,4 +52,9 @@ public class TodoController {
     public ResponseEntity<?> deleteById(@PathVariable Long id){
         return new ResponseEntity<>(taskService.deleteTask(id), HttpStatus.OK);
     }
+    @CrossOrigin
+    @DeleteMapping("/taskBoard/{id}")
+    public ResponseEntity<?> deleteByBoardId(@PathVariable Long id){
+        return new ResponseEntity<>(taskService.delete(id), HttpStatus.OK);
+    }
 }
