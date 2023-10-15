@@ -38,11 +38,20 @@ public class TodoController {
 //        return new ResponseEntity<>(taskService.findBook(id), HttpStatus.OK);
 //    }
     @CrossOrigin
-    @PutMapping("/task/{boardId}")
+    @PutMapping("/setTask/{boardId}")
     public ResponseEntity<?> update(@PathVariable Long boardId, @RequestBody Task task){
-        System.out.println("The task name is: "+ task.getTaskName());
-        System.out.println("The task id is: "+ task.getTaskId());
+//        System.out.println("The task name is: "+ task.getTaskName());
+//        System.out.println("The task id is: "+ task.getTaskId());
         return new ResponseEntity<>(taskService.update(boardId, task), HttpStatus.OK);
+    }
+
+    @CrossOrigin
+    @PutMapping("/updateTask/{taskId}")
+    public ResponseEntity<?> updateTask(@PathVariable Long taskId, @RequestBody Task task){
+
+//        System.out.println("The task name is: "+ task.getTaskName());
+//        System.out.println("The task id is: "+ task.getTaskId());
+        return new ResponseEntity<>(taskService.updateTask(taskId, task), HttpStatus.OK);
     }
 
 //    @CrossOrigin

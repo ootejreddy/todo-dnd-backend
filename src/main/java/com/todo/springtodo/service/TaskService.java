@@ -55,4 +55,15 @@ public class TaskService {
         taskRepository.deleteById(Math.toIntExact(id));
         return "TaskBoard Deleted";
     }
+
+    public String updateTask(Long taskId, Task task) {
+        System.out.println("entered in to the updateTask function");
+        Task taskEntity = taskRepository.findById(Math.toIntExact(taskId)).
+                orElseThrow(()->new IllegalArgumentException("check Id"));
+        System.out.println("The task entity is: "+ taskEntity.getTaskId());
+        System.out.println("The task name is: "+ task.getTaskName());
+        taskEntity.setTaskName(task.getTaskName());
+        taskRepository.save(taskEntity);
+        return "Task Updated";
+    }
 }
