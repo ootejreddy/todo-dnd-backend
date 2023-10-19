@@ -18,11 +18,44 @@ import java.util.UUID;
 @Service
 public class TaskService {
 
+    @Autowired
     private final TaskBoardRepository taskBoardRepository;
+    @Autowired
     private final TaskRepository taskRepository;
     @Transactional
     public TaskBoard create(TaskBoard taskBoard){
         return taskBoardRepository.save(taskBoard);
+    }
+
+    @Transactional
+    public TaskBoard createAll(Long boardId, List<Task> tasks){
+        Task taskEntity = new Task();
+        TaskBoard taskBoardEntity = taskBoardRepository.findById( Math.toIntExact(boardId))
+                .orElseThrow(()->new IllegalArgumentException("check Id"));
+        List<Task> taskList = taskBoardEntity.getTaskList();
+        System.out.println("The taskList is: "+ taskList);
+        if(taskList.size() >0) {
+            System.out.println("entered into the loop");
+            for (Task task : taskList) {
+                System.out.println(task.getTaskId());
+                Long taskId = Long.valueOf(task.getTaskId());
+                removeTask(taskId);
+            }
+        }
+        for(Task task: tasks) {
+            taskEntity.setTaskName(task.getTaskName());
+            taskEntity.setTaskBoard(taskBoardEntity);
+            List<Task> taskList2 = taskBoardEntity.getTaskList();
+            taskList2.add(taskEntity);
+            taskBoardEntity.setTaskList(taskList2);
+            taskBoardRepository.save(taskBoardEntity);
+        }
+        return taskBoardEntity;
+    }
+
+    @Transactional
+    public void deleteAllTasks() {
+        taskRepository.deleteAll();
     }
 
     @Transactional(readOnly = true)
@@ -54,6 +87,10 @@ public class TaskService {
     public String deleteTask(Long id){
         taskRepository.deleteById(Math.toIntExact(id));
         return "TaskBoard Deleted";
+    }
+    @Transactional
+    public void removeTask(Long id){
+        taskRepository.deleteById(Math.toIntExact(id));
     }
 
     public String updateTask(Long taskId, Task task) {

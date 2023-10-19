@@ -46,6 +46,14 @@ public class TodoController {
     }
 
     @CrossOrigin
+    @PutMapping("/setAllTasks/{boardId}")
+    public ResponseEntity<?> update(@PathVariable Long boardId, @RequestBody List<Task> tasks){
+//        System.out.println("The task name is: "+ task.getTaskName());
+//        System.out.println("The task id is: "+ task.getTaskId());
+        return new ResponseEntity<>(taskService.createAll(boardId, tasks), HttpStatus.OK);
+    }
+
+    @CrossOrigin
     @PutMapping("/updateTask/{taskId}")
     public ResponseEntity<?> updateTask(@PathVariable Long taskId, @RequestBody Task task){
 
